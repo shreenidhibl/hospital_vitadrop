@@ -5,16 +5,57 @@ import time
 
 import csv
 import os
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask import Flask, jsonify, request, make_response
 import math
 import traceback
 from flask_mail import Mail, Message
-
+import pandas as pd
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for React app
 
+# Add CORS headers to all responses
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
+    return response
+
+from flask import make_response
+
+@app.route('/api/transactions', methods=['GET', 'OPTIONS'])
+def get_transactions():
+    if request.method == 'OPTIONS':
+        response = make_response()
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        response.headers['Access-Control-Allow-Methods'] = 'GET,OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        return response
+    try:
+        csv_path = os.path.join(os.path.dirname(__file__), 'transactions.csv')
+        if not os.path.exists(csv_path):
+            response = jsonify({'status': 'error', 'message': 'transactions.csv not found'})
+            response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            return response, 404
+        import csv
+        transactions = []
+        with open(csv_path, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                transactions.append(row)
+        response = jsonify(transactions)
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        return response
+    except Exception as e:
+        print(f"Error reading transactions: {str(e)}")
+        response = jsonify({'status': 'error', 'message': str(e)})
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        return response, 500
 
 def simulate_alerts_background():
     blood_groups = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
@@ -406,26 +447,7 @@ def server_error(error):
 
 if __name__ == '__main__':
     print("🩸 Starting Blood Bank Flask API...")
-    print("📍 Available at: http://127.0.0.1:5000")
-    print("🗺️  Map endpoint: http://127.0.0.1:5000/api/donors/map")
-    print("📧 Notify endpoint: http://127.0.0.1:5000/api/donors/notify")
-    app.run(debug=True, port=5000, host='127.0.0.1')
-    
-    try:
-        data = request.get_json()
-        donor_id = data.get('donor_id')
-        message = data.get('message', 'Blood donation needed urgently!')
-        
-        # Find donor
-        donor = next((d for d in DONORS if d['id'] == donor_id), None)
-        
-        
-        # Simulate sending notification
-        print(f"📧 Sending notification to {donor['name']} ({donor['email']}): {message}")
-        
-        
-    except Exception as e:
-        print(f"Error sending notification: {str(e)}")
-        
-
-
+    print("📍 Available at: http://127.0.0.1:5050")
+    print("🗺️  Map endpoint: http://127.0.0.1:5050/api/donors/map")
+    print("📧 Notify endpoint: http://127.0.0.1:5050/api/donors/notify")
+    app.run(debug=True, port=5050, host='127.0.0.1')

@@ -14,7 +14,7 @@ const InventoryManagement = () => {
     const fetchInventory = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://127.0.0.1:5000/api/inventory");
+  const res = await fetch("http://127.0.0.1:5050/api/inventory");
         const data = await res.json();
         if (data.status === "success") {
           setInventory(data.inventory);
@@ -82,7 +82,7 @@ const InventoryManagement = () => {
     ));
     // Sync with backend
     try {
-      await fetch('http://127.0.0.1:5000/api/inventory/update', {
+  await fetch('http://127.0.0.1:5050/api/inventory/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -94,7 +94,7 @@ const InventoryManagement = () => {
         })
       });
       // Re-fetch inventory to sync filters and data
-      const res = await fetch("http://127.0.0.1:5000/api/inventory");
+  const res = await fetch("http://127.0.0.1:5050/api/inventory");
       const data = await res.json();
       if (data.status === "success") {
         setInventory(data.inventory);

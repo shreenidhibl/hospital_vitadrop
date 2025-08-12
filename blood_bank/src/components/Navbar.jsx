@@ -1,18 +1,19 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import "./Navbar.css";
-
-const navItems = [
-  { label: "Dashboard", path: "/dashboard" },
-  { label: "Hospital Alerts", path: "/incoming-alerts" },
-  { label: "Inventory Management", path: "/inventory" },
-  { label: "Alert Donors", path: "/donor-alert-map" },
-  { label: "Analytics Dashboard", path: "/analytics" },
-];
+"use client"
+import { useLocation, useNavigate } from "react-router-dom"
+import "./Navbar.css"
 
 const Navbar = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const navItems = [
+    { path: "/dashboard", label: "Dashboard" },
+    { path: "/incoming-alerts", label: "Hospital Alerts" },
+    { path: "/inventory", label: "Inventory Management" },
+    { path: "/donor-alert-map", label: "Alert Donors" },
+    { path: "/transaction-history", label: "Transaction History" },
+    { path: "/analytics", label: "Analytics Dashboard" },
+  ]
 
   return (
     <div className="navbar-container">
@@ -31,7 +32,7 @@ const Navbar = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

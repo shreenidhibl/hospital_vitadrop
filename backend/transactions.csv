@@ -1,0 +1,101 @@
+date,blood_group,units,source_type,source_name,urgency,status
+2025-07-15,O+,8,Blood Bank,Central Blood Bank,Critical,Fulfilled
+2025-06-28,A-,1,Donor,Christopher Lee,Urgent,Fulfilled
+2025-06-23,O+,16,Blood Bank,Metro Blood Services,Critical,Fulfilled
+2025-05-25,O+,1,Donor,Tyler Hill,Normal,Fulfilled
+2025-06-07,B-,8,Blood Bank,Metro Blood Services,Urgent,Fulfilled
+2025-06-04,AB+,1,Donor,Daniel Harris,Normal,Fulfilled
+2025-06-21,AB-,5,Blood Bank,Central Blood Bank,Normal,Fulfilled
+2025-05-29,A-,1,Donor,Brandon Wright,Normal,Pending
+2025-07-11,O-,15,Blood Bank,Regional Blood Bank,Urgent,Fulfilled
+2025-06-14,B-,1,Donor,Stephanie Walker,Critical,Fulfilled
+2025-06-19,A+,9,Blood Bank,City Blood Center,Urgent,Fulfilled
+2025-05-28,O-,7,Blood Bank,City Blood Center,Normal,Pending
+2025-07-03,AB+,14,Blood Bank,Regional Blood Bank,Normal,Fulfilled
+2025-04-15,A-,1,Donor,James Parker,Normal,Fulfilled
+2025-06-01,O+,1,Donor,Matthew Thomas,Normal,Fulfilled
+2025-06-27,O-,13,Blood Bank,City Blood Center,Normal,Fulfilled
+2025-05-30,B-,13,Blood Bank,Central Blood Bank,Critical,Pending
+2025-04-25,O-,1,Donor,Kayla Gonzalez,Normal,Fulfilled
+2025-07-07,O+,11,Blood Bank,Central Blood Bank,Urgent,Fulfilled
+2025-04-05,B-,1,Donor,Charles Flores,Normal,Fulfilled
+2025-06-11,A+,14,Blood Bank,City Blood Center,Critical,Fulfilled
+2025-07-12,AB-,1,Donor,Sarah Johnson,Critical,Fulfilled
+2025-06-12,AB+,1,Donor,Ryan Hall,Normal,Fulfilled
+2025-05-22,B-,8,Blood Bank,Central Blood Bank,Normal,Fulfilled
+2025-07-14,A-,1,Donor,John Smith,Urgent,Fulfilled
+2025-07-10,A+,1,Donor,Michael Brown,Normal,Fulfilled
+2025-07-09,AB+,9,Blood Bank,Metro Blood Services,Critical,Fulfilled
+2025-06-02,A+,10,Blood Bank,Central Blood Bank,Critical,Fulfilled
+2025-04-27,AB-,1,Donor,Jonathan Baker,Normal,Fulfilled
+2025-06-20,O-,1,Donor,Daniel Harris,Critical,Fulfilled
+2025-05-23,AB-,1,Donor,Samantha Scott,Normal,Fulfilled
+2025-06-25,AB+,8,Blood Bank,Regional Blood Bank,Urgent,Fulfilled
+2025-06-16,O+,1,Donor,Joshua Lewis,Urgent,Fulfilled
+2025-05-26,B+,11,Blood Bank,Regional Blood Bank,Urgent,Fulfilled
+2025-06-03,B+,1,Donor,Michael Brown,Urgent,Fulfilled
+2025-06-10,B+,1,Donor,Nicole Allen,Urgent,Fulfilled
+2025-04-22,O+,15,Blood Bank,City Blood Center,Critical,Fulfilled
+2025-06-15,A-,7,Blood Bank,Metro Blood Services,Normal,Fulfilled
+2025-06-13,O-,11,Blood Bank,Central Blood Bank,Urgent,Fulfilled
+2025-05-19,AB+,12,Blood Bank,City Blood Center,Urgent,Fulfilled
+2025-04-30,B+,6,Blood Bank,City Blood Center,Urgent,Fulfilled
+2025-04-24,AB+,11,Blood Bank,Central Blood Bank,Urgent,Fulfilled
+2025-04-20,A-,7,Blood Bank,Regional Blood Bank,Critical,Fulfilled
+2025-05-20,A-,1,Donor,Tyler Hill,Normal,Pending
+2025-04-29,O+,1,Donor,Brittany Adams,Normal,Fulfilled
+2025-04-26,B-,9,Blood Bank,Metro Blood Services,Normal,Fulfilled
+2025-06-09,O+,6,Blood Bank,Regional Blood Bank,Normal,Fulfilled
+2025-04-21,B-,1,Donor,Alexis Carter,Urgent,Fulfilled
+2025-05-31,AB-,9,Blood Bank,City Blood Center,Urgent,Fulfilled
+2025-05-24,A+,16,Blood Bank,Metro Blood Services,Critical,Fulfilled
+2025-06-22,B-,1,Donor,Jessica White,Urgent,Fulfilled
+2025-06-17,AB+,12,Blood Bank,Regional Blood Bank,Critical,Fulfilled
+2025-04-23,A+,1,Donor,Nathan Nelson,Normal,Fulfilled
+2025-05-21,O-,1,Donor,Justin Green,Critical,Pending
+2025-06-06,A-,1,Donor,Rachel King,Normal,Fulfilled
+2025-05-19,AB+,12,Blood Bank,City Blood Center,Urgent,Fulfilled
+2025-03-30,O-,1,Donor,Maria Rodriguez,Critical,Fulfilled
+2025-05-27,AB+,1,Donor,Megan Lopez,Normal,Pending
+2025-05-22,B-,8,Blood Bank,Central Blood Bank,Normal,Fulfilled
+2025-06-28,A-,1,Donor,Christopher Lee,Urgent,Fulfilled
+2025-05-30,B-,13,Blood Bank,Central Blood Bank,Critical,Pending
+2025-04-22,O+,15,Blood Bank,City Blood Center,Critical,Fulfilled
+2025-04-30,B+,6,Blood Bank,City Blood Center,Urgent,Fulfilled
+2025-04-20,A-,7,Blood Bank,Regional Blood Bank,Critical,Fulfilled
+2025-04-25,O-,1,Donor,Kayla Gonzalez,Normal,Fulfilled
+2025-04-07,A-,1,Donor,Jessica Hughes,Normal,Fulfilled
+2025-06-01,O+,1,Donor,Matthew Thomas,Normal,Fulfilled
+2025-06-19,A+,9,Blood Bank,City Blood Center,Urgent,Fulfilled
+2025-06-08,AB-,1,Donor,Kevin Young,Critical,Fulfilled
+2025-04-09,AB+,1,Donor,Patricia Turner,Normal,Fulfilled
+2025-03-27,O+,1,Donor,Mark Collins,Normal,Fulfilled
+2025-06-11,A+,14,Blood Bank,City Blood Center,Critical,Fulfilled
+2025-04-03,O-,1,Donor,Amanda Bell,Normal,Fulfilled
+2025-07-07,O+,11,Blood Bank,Central Blood Bank,Urgent,Fulfilled
+2025-05-22,B-,8,Blood Bank,Central Blood Bank,Normal,Fulfilled
+2025-06-02,A+,10,Blood Bank,Central Blood Bank,Critical,Fulfilled
+2025-04-26,B-,9,Blood Bank,Metro Blood Services,Normal,Fulfilled
+2025-04-11,O+,1,Donor,Daniel Evans,Normal,Fulfilled
+2025-06-12,AB+,1,Donor,Ryan Hall,Normal,Fulfilled
+2025-07-01,B-,6,Blood Bank,Metro Blood Services,Urgent,Fulfilled
+2025-06-03,B+,1,Donor,Michael Brown,Urgent,Fulfilled
+2025-05-26,B+,11,Blood Bank,Regional Blood Bank,Urgent,Fulfilled
+2025-05-23,AB-,1,Donor,Samantha Scott,Normal,Fulfilled
+2025-05-26,B+,11,Blood Bank,Regional Blood Bank,Urgent,Fulfilled
+2025-04-22,O+,15,Blood Bank,City Blood Center,Critical,Fulfilled
+2025-04-28,A-,14,Blood Bank,Regional Blood Bank,Critical,Fulfilled
+2025-05-21,O-,1,Donor,Justin Green,Critical,Pending
+2025-05-24,A+,16,Blood Bank,Metro Blood Services,Critical,Fulfilled
+2025-04-24,AB+,11,Blood Bank,Central Blood Bank,Urgent,Fulfilled
+2025-05-22,B-,8,Blood Bank,Central Blood Bank,Normal,Fulfilled
+2025-04-23,A+,1,Donor,Nathan Nelson,Normal,Fulfilled
+2025-04-20,A-,7,Blood Bank,Regional Blood Bank,Critical,Fulfilled
+2025-06-22,B-,1,Donor,Jessica White,Urgent,Fulfilled
+2025-05-28,O-,7,Blood Bank,City Blood Center,Normal,Pending
+2025-04-21,B-,1,Donor,Alexis Carter,Urgent,Fulfilled
+2025-06-20,O-,1,Donor,Daniel Harris,Critical,Fulfilled
+2025-05-30,B-,13,Blood Bank,Central Blood Bank,Critical,Pending
+2025-06-25,AB+,8,Blood Bank,Regional Blood Bank,Urgent,Fulfilled
+2025-06-27,O-,13,Blood Bank,City Blood Center,Normal,Fulfilled
+2025-06-22,B-,1,Donor,Jessica White,Urgent,Fulfilled

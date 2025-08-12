@@ -5,7 +5,7 @@
   background: linear-gradient(90deg, #e52d27 0%, #b31217 100%);
   color: #fff;
   padding: 0.7rem 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
   z-index: 1000; /* Higher z-index to stay above map */
@@ -40,8 +40,28 @@
   transition: background 0.2s, color 0.2s;
 }
 
-.nav-btn.active, .nav-btn:hover {
+.nav-btn.active,
+.nav-btn:hover {
   background: #fff;
   color: #b31217;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .navbar-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .nav-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+  }
 }

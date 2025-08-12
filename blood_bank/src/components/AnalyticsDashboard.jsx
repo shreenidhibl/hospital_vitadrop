@@ -49,7 +49,7 @@ const AnalyticsDashboard = () => {
     const fetchInventory = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://127.0.0.1:5000/api/inventory");
+  const res = await fetch("http://127.0.0.1:5050/api/inventory");
         const data = await res.json();
         if (data.status === "success") {
           setInventory(data.inventory);

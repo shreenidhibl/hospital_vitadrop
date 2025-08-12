@@ -1,256 +1,136 @@
-/* Flex row for summary cards and notifications */
-.dashboard-flex-row {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 3rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.dashboard-summary-col {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  align-items: center;
-  flex: 1 1 340px;
-  min-width: 260px;
-  max-width: 340px;
-  margin-top: 2.5rem;
-}
-
-.dashboard-notifications {
-  flex: 1 1 540px;
-  min-width: 400px;
-  max-width: 600px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 2.5rem;
-}
-
-@media (max-width: 1024px) {
-  .dashboard-flex-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-  .dashboard-notifications {
-    margin-left: 0 !important;
-  }
-}
-/* Notifications Pretty Box Styling */
-.notifications-list-pretty {
-  background: none;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-  max-width: unset;
-  min-width: unset;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: stretch;
-}
-
-.notif-pretty {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.2rem;
-  background: linear-gradient(90deg, #f6f7ff 0%, #ffeaea 100%);
-  border-radius: 14px;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 4px 16px rgba(229, 45, 39, 0.11);
-  border-left: 6px solid #e52d27;
-  transition: box-shadow 0.2s;
-  font-size: 1.13rem;
-}
-.notif-pretty-icon {
-  font-size: 1.7rem;
-  margin-top: 0.1rem;
-}
-.notif-pretty-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-.notif-pretty-type {
-  font-weight: 600;
-  color: #e52d27;
-  font-size: 1.05rem;
-  margin-bottom: 0.1rem;
-}
-.notif-pretty-message {
-  color: #222;
-  font-size: 1.02rem;
-  font-family: 'Inter', sans-serif;
-}
-.notif-pretty-time {
-  color: #888;
-  font-size: 0.92rem;
-  margin-top: 0.1rem;
-}
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 .dashboard-container {
   min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #f6f7ff 0%, #fff 100%);
-  padding: 2rem;
-  position: relative;
-}
-
-.dashboard-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 200px;
-  background: linear-gradient(135deg, #f3f1f1 0%, #f54248 100%);
-  z-index: 0;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 2.5rem;
 }
 
 .dashboard-header {
-  position: relative;
-  z-index: 1;
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
   color: white;
-  max-width: 1200px;
-  margin: 0 auto 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 6px 24px rgba(185, 28, 28, 0.15);
 }
 
 .title-section {
-  text-align: left;
+  flex: 1;
 }
 
 .dashboard-title {
   font-size: 2.5rem;
-  color: #b31217;
-  margin-bottom: 0.5rem;
-  position: relative;
-  display: inline-block;
   font-weight: 700;
-  letter-spacing: 1px;
-  font-family: 'Montserrat', 'Poppins', sans-serif;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
 }
 
 .heading-accent {
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: #b31217;
-  border-radius: 3px;
-  opacity: 1;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  width: 60px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  margin-top: 0.5rem;
 }
 
 .heading-subtitle {
-  color: #666;
-  font-size: 1.15rem;
-  margin-top: 18px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  text-shadow: none;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+  font-weight: 400;
 }
 
 .refresh-time {
   font-size: 0.9rem;
-  opacity: 0.9;
+  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
 }
 
-.dashboard-main-content {
-  position: relative;
-  z-index: 1;
+.dashboard-content {
   max-width: 1200px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.overview-cards {
+.summary-cards {
   display: grid;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.overview-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3.5rem;
 }
 
 .card {
-  background: rgb(249, 248, 248);
-  border-radius: 8px;
-  padding: 1rem 1.2rem;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
   display: flex;
   align-items: flex-start;
-  gap: 1.2rem;
-  border: 1px solid rgba(229, 45, 39, 0.1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease;
-  height: 100px;
-  min-width: 180px;
-  max-width: 300px;
-  width: 100%;
-  min-width: unset;
-  max-width: unset;
+  gap: 1rem;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(229, 45, 39, 0.15);
-  border-color: rgba(229, 45, 39, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -3px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
 }
 
 .card-icon {
-  font-size: 2rem;
-  padding: 1rem;
-  background: rgba(229, 45, 39, 0.1);
-  border-radius: 12px;
-  min-width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.alert-icon {
+  background: linear-gradient(135deg, #fef9e7 0%, #fef3c7 100%);
+  color: #b45309;
+}
+
+.donor-icon {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #1d4ed8;
+}
+
+.hospital-icon {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: #b91c1c;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
 }
 
 .card-content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-family: 'Inter', sans-serif;
 }
 
 .card-content h3 {
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   color: #6b7280;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .card-value {
   display: block;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-weight: 700;
-  color: #e52d27;
+  color: #111827;
   line-height: 1;
   margin: 0.5rem 0;
 }
@@ -258,96 +138,175 @@
 .card-status {
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .card-status.urgent {
-  background: rgba(229, 45, 39, 0.1);
-  color: #e52d27;
+  background: #fef7f7;
+  color: #b91c1c;
 }
 
-.card-status.positive {
-  background: rgba(52, 199, 89, 0.1);
-  color: #34c759;
+.card-status:not(.urgent) {
+  background: #f3f4f6;
+  color: #6b7280;
 }
 
-.primary-btn {
-  flex: 1;
+.notifications-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+}
+
+.loading-state,
+.error-state,
+.empty-state {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
-  background: rgba(229, 45, 39, 0.85);
-  color: white;
-  border: none;
-  padding: 0.9rem 1.5rem;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(229, 45, 39, 0.15);
-  font-family: 'Montserrat', sans-serif;
-  letter-spacing: 0.5px;
-  min-width: 150px;
-  text-transform: uppercase;
+  gap: 0.75rem;
+  padding: 3rem;
+  color: #6b7280;
+  font-size: 0.875rem;
 }
 
-.primary-btn:hover {
-  transform: translateY(-2px);
-  background: rgba(229, 45, 39, 0.95);
-  box-shadow: 0 6px 20px rgba(229, 45, 39, 0.2);
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #dc2626;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-.btn-icon {
-  font-size: 1.1rem;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.dashboard-footer {
-  margin-top: 2rem;
-  padding: 1.5rem 0;
-  border-top: 1px solid rgba(229, 45, 39, 0.1);
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.quick-access-buttons {
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid #e5e7eb;
+  background: #fafbfc;
+  transition: all 0.2s ease;
+}
+
+.notification-item:hover {
+  background: #f5f6f7;
+}
+
+.notification-item.hospital-request {
+  border-left-color: #b91c1c;
+  background: linear-gradient(90deg, #fef7f7 0%, #fafbfc 100%);
+}
+
+.notification-item.inventory-shortage {
+  border-left-color: #b45309;
+  background: linear-gradient(90deg, #fefcf3 0%, #fafbfc 100%);
+}
+
+.notification-item.donor-response {
+  border-left-color: #1d4ed8;
+  background: linear-gradient(90deg, #f8faff 0%, #fafbfc 100%);
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.hospital-request .notification-icon {
+  color: #b91c1c;
+}
+
+.inventory-shortage .notification-icon {
+  color: #b45309;
+}
+
+.donor-response .notification-icon {
+  color: #1d4ed8;
+}
+
+.notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
-  padding: 0 2rem;
-  max-width: 600px;
-  margin: 0 auto;
+  margin-bottom: 0.25rem;
 }
 
-@media (max-width: 1024px) {
-  .overview-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.notification-type {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #111827;
+}
 
-  .quick-access-buttons {
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .primary-btn {
-    min-width: calc(50% - 1rem);
-  }
+.notification-time {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.notification-message {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #4b5563;
+  line-height: 1.4;
 }
 
 @media (max-width: 768px) {
-  .overview-cards-grid {
+  .dashboard-container {
+    padding: 1.5rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .summary-cards {
     grid-template-columns: 1fr;
   }
 
-  .quick-access-buttons {
+  .notification-header {
     flex-direction: column;
-    padding: 0 1rem;
-  }
-  
-  .primary-btn {
-    width: 100%;
-    min-width: unset;
+    align-items: flex-start;
+    gap: 0.25rem;
   }
 }

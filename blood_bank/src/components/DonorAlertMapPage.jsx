@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const center = [12.9716, 77.5946];
-const API_BASE_URL = 'http://127.0.0.1:5000';
+const API_BASE_URL = 'http://127.0.0.1:5050';
 
 // No mockDonors needed; will use backend data
 

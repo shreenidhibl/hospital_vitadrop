@@ -1,19 +1,19 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import LoginPage from "./components/LoginPage";
-import Dashboard from "./components/Dashboard";
-import IncomingAlerts from "./components/IncomingAlerts";
-import InventoryManagement from "./components/InventoryManagement";
-import DonorAlertMapPage from "./components/DonorAlertMapPage";
-import AnalyticsDashboard from "./components/AnalyticsDashboard";
-import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
+import LoginPage from "./components/LoginPage"
+import Dashboard from "./components/Dashboard"
+import IncomingAlerts from "./components/IncomingAlerts"
+import InventoryManagement from "./components/InventoryManagement"
+import DonorAlertMapPage from "./components/DonorAlertMapPage"
+import AnalyticsDashboard from "./components/AnalyticsDashboard"
+import BloodTransactionHistory from "./components/BloodTransactionHistory"
+import Navbar from "./components/Navbar"
 
 const NavbarWrapper = () => {
-  const location = useLocation();
+  const location = useLocation()
   // Don't show navbar on login page
-  if (location.pathname === "/") return null;
-  return <Navbar />;
-};
+  if (location.pathname === "/") return null
+  return <Navbar />
+}
 
 const App = () => {
   return (
@@ -26,10 +26,11 @@ const App = () => {
         <Route path="/inventory" element={<InventoryManagement />} />
         <Route path="/donor-alert-map" element={<DonorAlertMapPage />} />
         <Route path="/analytics" element={<AnalyticsDashboard />} />
+        <Route path="/transaction-history" element={<BloodTransactionHistory />} />
         {/* Add other routes as needed */}
       </Routes>
     </Router>
-  );
-};
+  )
+}
 
-export default App;
+export default App

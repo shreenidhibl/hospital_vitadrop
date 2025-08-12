@@ -1,15 +1,33 @@
+
 import React, { useState, useEffect } from "react";
 import "./IncomingAlerts.css";
 
+function formatDate(dateStr) {
+  if (!dateStr) return "";
+  if (dateStr.includes("/")) {
+    const [day, month, year] = dateStr.split("/");
+    return `${day}/${month}/${year}`;
+  }
+  if (dateStr.includes("-")) {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
+  }
+  return dateStr;
+}
 
+function formatTime(timeStr) {
+  if (!timeStr) return "";
+  // Expecting HH:MM:SS or HH:MM
+  return timeStr.slice(0, 5);
+}
 
 const getUrgencyClass = (urgency) => {
-  switch (urgency) {
-    case "Critical":
+  switch ((urgency || "").toLowerCase()) {
+    case "critical":
       return "urgency-critical";
-    case "Urgent":
+    case "urgent":
       return "urgency-urgent";
-    case "Normal":
+    case "normal":
       return "urgency-normal";
     default:
       return "";
@@ -19,42 +37,67 @@ const getUrgencyClass = (urgency) => {
 const IncomingAlerts = () => {
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  // Fetch alerts from backend
+  const [searchTerm, setSearchTerm] = useState("");
+  const [urgencyFilter, setUrgencyFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [confirmationMsg, setConfirmationMsg] = useState("");
+
   useEffect(() => {
     const fetchAlerts = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://127.0.0.1:5000/api/alerts");
+        const res = await fetch("http://127.0.0.1:5050/api/alerts");
         const data = await res.json();
         if (data.status === "success") {
           setAlerts(data.alerts);
-          setError("");
-        } else {
-          setError(data.message || "Failed to load alerts");
         }
       } catch (err) {
-        setError("Could not connect to backend");
+        // fallback: empty
       } finally {
         setLoading(false);
       }
     };
     fetchAlerts();
   }, []);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [urgencyFilter, setUrgencyFilter] = useState("all");
-  const [typeFilter, setTypeFilter] = useState("all");
-  // Dynamically extract all unique types (components) from alerts
+
+  // Extract all unique types (components) from alerts
   const allTypes = Array.from(new Set(alerts.map(a => a.component).filter(Boolean)));
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [confirmationMsg, setConfirmationMsg] = useState("");
+
+  // Summary stats
+  const stats = React.useMemo(() => {
+    let total = 0, critical = 0, urgent = 0, pending = 0, completed = 0;
+    alerts.forEach(alert => {
+      total++;
+      if ((alert.urgency || "").toLowerCase() === "critical" && (alert.status || "").toLowerCase() === "pending") critical++;
+      if ((alert.urgency || "").toLowerCase() === "urgent" && (alert.status || "").toLowerCase() === "pending") urgent++;
+      if ((alert.status || "").toLowerCase() === "pending") pending++;
+      if ((alert.status || "").toLowerCase() === "resolved" || (alert.status || "").toLowerCase() === "completed") completed++;
+    });
+    return { total, critical, urgent, pending, completed };
+  }, [alerts]);
+
+  // Filtered alerts
+  const filteredAlerts = alerts.filter((alert) => {
+    if (!alert.hospital_name || !alert.units_needed) return false;
+    const matchesSearch =
+      (alert.hospital_name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (alert.blood_group || "").toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesUrgency =
+      urgencyFilter === "all" || (alert.urgency || "").toLowerCase() === urgencyFilter;
+    const matchesType =
+      typeFilter === "all" || (alert.component || "").toLowerCase() === typeFilter;
+    const matchesStatus =
+      statusFilter === "all" || (alert.status || "").toLowerCase() === statusFilter;
+    return matchesSearch && matchesUrgency && matchesType && matchesStatus;
+  });
 
   // Complete task: call backend to resolve alert and update inventory
   const handleCompleteTask = async (alert, idx) => {
     const confirmed = window.confirm(`Mark this alert for ${alert.hospital_name} (${alert.blood_group}, ${alert.component}) as completed? This will update inventory management.`);
     if (!confirmed) return;
     try {
-      const res = await fetch('http://127.0.0.1:5000/api/alerts/complete', {
+      const res = await fetch('http://127.0.0.1:5050/api/alerts/complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -67,7 +110,7 @@ const IncomingAlerts = () => {
       const data = await res.json();
       if (data.status === 'success') {
         // Re-fetch alerts to update status
-        const res2 = await fetch("http://127.0.0.1:5000/api/alerts");
+        const res2 = await fetch("http://127.0.0.1:5050/api/alerts");
         const data2 = await res2.json();
         if (data2.status === "success") {
           setAlerts(data2.alerts);
@@ -84,115 +127,96 @@ const IncomingAlerts = () => {
     }
   };
 
-  // Only show alerts that are real hospital alerts (must have hospital_name and units_needed)
-  const filteredAlerts = alerts.filter((alert) => {
-    if (!alert.hospital_name || !alert.units_needed) return false;
-    const matchesSearch =
-      (alert.hospital_name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (alert.blood_group || "").toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesUrgency =
-      urgencyFilter === "all" ||
-      (alert.urgency || "").toLowerCase() === urgencyFilter;
-    const matchesType =
-      typeFilter === "all" ||
-      (alert.component || "").toLowerCase() === typeFilter;
-    const matchesStatus =
-      statusFilter === "all" ||
-      (alert.status || "").toLowerCase() === statusFilter;
-    return matchesSearch && matchesUrgency && matchesType && matchesStatus;
-  });
-
-  // Only count pending alerts for critical/urgent
-  const stats = {
-    total: alerts.length,
-    critical: alerts.filter((a) => a.urgency === "Critical" && a.status === "Pending").length,
-    urgent: alerts.filter((a) => a.urgency === "Urgent" && a.status === "Pending").length,
-    pending: alerts.filter((a) => a.status === "Pending").length,
-    completed: alerts.filter((a) => a.status === "Resolved").length,
-  };
-
-  // Format date and time from alert.date and alert.time
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const [dd, mm, yyyy] = dateStr.split("-");
-    return `${dd}-${mm}-${yyyy}`;
-  };
-  const formatTime = (timeStr) => timeStr || "";
+  if (loading) {
+    return <div className="loading">Loading hospital alerts...</div>;
+  }
 
   return (
     <div className="alerts-container">
       <div className="alerts-header">
-        <div className="header-main">
-          <div className="title-section">
-            <h2 className="alerts-heading">
-              Hospital Alerts
-              <div className="heading-accent"></div>
-            </h2>
-            <p className="heading-subtitle">Real-time blood requirement updates</p>
+        <div className="title-section" style={{marginBottom: '2rem'}}>
+          <h2 className="alerts-heading" style={{fontSize: '2.8rem', fontWeight: 800, color: '#b31217', marginBottom: '0.5rem'}}>
+            Hospital Alerts
+            <div className="heading-accent"></div>
+          </h2>
+          <p className="heading-subtitle" style={{fontSize: '1.15rem', color: '#6b7280', marginTop: 0}}>Real-time blood requirement updates</p>
+        </div>
+        <div className="summary-cards">
+          <div className="summary-card">
+            <div className="summary-card-label">Total Alerts</div>
+            <div className="summary-card-value" style={{color: '#222'}}>{stats.total}</div>
+            <div className="summary-card-description">All hospital alerts</div>
           </div>
-          <div className="stats-summary">
-            <div className="stat-item">
-              <span className="stat-value">{stats.total}</span>
-              <span className="stat-label">Total</span>
-            </div>
-            <div className="stat-item critical">
-              <span className="stat-value">{stats.critical}</span>
-              <span className="stat-label">Critical</span>
-            </div>
-            <div className="stat-item urgent">
-              <span className="stat-value">{stats.urgent}</span>
-              <span className="stat-label">Urgent</span>
-            </div>
-            <div className="stat-item pending">
-              <span className="stat-value">{stats.pending}</span>
-              <span className="stat-label">Pending</span>
-            </div>
-            <div className="stat-item" style={{borderTop: '3px solid #218838'}}>
-              <span className="stat-value">{stats.completed}</span>
-              <span className="stat-label">Completed</span>
-            </div>
+          <div className="summary-card">
+            <div className="summary-card-label">Critical</div>
+            <div className="summary-card-value" style={{color: '#e53935'}}>{stats.critical}</div>
+            <div className="summary-card-description">Critical & pending</div>
+          </div>
+          <div className="summary-card">
+            <div className="summary-card-label">Urgent</div>
+            <div className="summary-card-value" style={{color: '#f59e0b'}}>{stats.urgent}</div>
+            <div className="summary-card-description">Urgent & pending</div>
+          </div>
+          <div className="summary-card">
+            <div className="summary-card-label">Pending</div>
+            <div className="summary-card-value" style={{color: '#f59e0b'}}>{stats.pending}</div>
+            <div className="summary-card-description">All pending alerts</div>
+          </div>
+          <div className="summary-card">
+            <div className="summary-card-label">Completed</div>
+            <div className="summary-card-value" style={{color: '#7c3aed'}}>{stats.completed}</div>
+            <div className="summary-card-description">Resolved alerts</div>
           </div>
         </div>
-        <div className="alerts-controls">
-          <div className="filter-group">
-            <div className="search-box">
-              <input
-                type="text"
-                placeholder="Search hospital or blood group..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <select
-              value={urgencyFilter}
-              onChange={(e) => setUrgencyFilter(e.target.value)}
-              className="urgency-filter"
-            >
-              <option value="all">All Urgency Levels</option>
-              <option value="critical">Critical</option>
-              <option value="urgent">Urgent</option>
-              <option value="normal">Normal</option>
-            </select>
-            <select
-              value={typeFilter}
-              onChange={(e) => setTypeFilter(e.target.value)}
-              className="type-filter"
-            >
-              <option value="all">All Types</option>
-              {allTypes.map(type => (
-                <option key={type} value={type.toLowerCase()}>{type}</option>
-              ))}
-            </select>
-            <select
-              value={statusFilter}
-              onChange={e => setStatusFilter(e.target.value)}
-              className="type-filter"
-            >
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="resolved">Completed</option>
-            </select>
+      </div>
+
+      {/* Filters Section */}
+      <div className="filters-section">
+        <div className="filters-row" style={{ width: '100%', display: 'flex', alignItems: 'center', marginBottom: '1.2rem' }}>
+          <div className="search-box" style={{ width: '100%' }}>
+            <input
+              type="text"
+              placeholder="Search by hospital name or blood group..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+              style={{ width: '100%' }}
+            />
           </div>
+        </div>
+        <div className="filters-row" style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'nowrap', justifyContent: 'flex-start' }}>
+          <select
+            value={urgencyFilter}
+            onChange={(e) => setUrgencyFilter(e.target.value)}
+            className="urgency-filter"
+            style={{ flex: '0 0 180px', minWidth: 160, maxWidth: 220 }}
+          >
+            <option value="all">All Urgency Levels</option>
+            <option value="critical">Critical</option>
+            <option value="urgent">Urgent</option>
+            <option value="normal">Normal</option>
+          </select>
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="type-filter"
+            style={{ flex: '0 0 180px', minWidth: 160, maxWidth: 220 }}
+          >
+            <option value="all">All Types</option>
+            {allTypes.map(type => (
+              <option key={type} value={type.toLowerCase()}>{type}</option>
+            ))}
+          </select>
+          <select
+            value={statusFilter}
+            onChange={e => setStatusFilter(e.target.value)}
+            className="type-filter"
+            style={{ flex: '0 0 180px', minWidth: 160, maxWidth: 220 }}
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="resolved">Completed</option>
+          </select>
         </div>
       </div>
 
@@ -236,7 +260,7 @@ const IncomingAlerts = () => {
                   </span>
                 </td>
                 <td>
-                  {alert.status === "Resolved" ? (
+                  {(alert.status || '').toLowerCase() === "resolved" || (alert.status || '').toLowerCase() === "completed" ? (
                     <span style={{ color: '#218838', fontWeight: 600 }}>Completed</span>
                   ) : (
                     <button
@@ -262,6 +286,9 @@ const IncomingAlerts = () => {
             ))}
           </tbody>
         </table>
+        {filteredAlerts.length === 0 && (
+          <div className="no-results">No alerts found matching your criteria.</div>
+        )}
       </div>
     </div>
   );
