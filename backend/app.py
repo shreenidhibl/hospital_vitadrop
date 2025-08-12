@@ -1,3 +1,6 @@
+### BLOOD BANKS API (moved below app = Flask(__name__))
+
+
 import threading
 import random
 import time
@@ -185,7 +188,29 @@ app.config['MAIL_PASSWORD'] = '      '         # <-- your app password
 app.config['MAIL_DEFAULT_SENDER'] = 'krithikavenkates@gmail.com'
 
 mail = Mail(app)
-
+@app.route('/api/bloodbanks', methods=['GET'])
+def get_bloodbanks():
+    csv_path = os.path.join(os.path.dirname(__file__), 'bloodbanks_data.csv')
+    bloodbanks = []
+    try:
+        with open(csv_path, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # Parse lat/lon as float, bank_id as int
+                try:
+                    row['lat'] = float(row['lat'])
+                    row['lon'] = float(row['lon'])
+                except Exception:
+                    row['lat'] = None
+                    row['lon'] = None
+                try:
+                    row['bank_id'] = int(row['bank_id'])
+                except Exception:
+                    pass
+                bloodbanks.append(row)
+        return jsonify({'status': 'success', 'bloodbanks': bloodbanks})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 @app.route('/api/inventory/update', methods=['POST'])
 def update_inventory():
     data = request.get_json()

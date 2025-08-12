@@ -11,6 +11,7 @@ const Navbar = () => {
     { path: "/incoming-alerts", label: "Hospital Alerts" },
     { path: "/inventory", label: "Inventory Management" },
     { path: "/donor-alert-map", label: "Alert Donors" },
+    { path: "/bloodbank-alerts", label: "Alert Blood Banks" },
     { path: "/transaction-history", label: "Transaction History" },
     { path: "/analytics", label: "Analytics Dashboard" },
   ]

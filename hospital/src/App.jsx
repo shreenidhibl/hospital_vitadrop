@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
+
 import LoginPage from "./components/LoginPage"
 import Dashboard from "./components/Dashboard"
 import IncomingAlerts from "./components/IncomingAlerts"
@@ -6,6 +7,7 @@ import InventoryManagement from "./components/InventoryManagement"
 import DonorAlertMapPage from "./components/DonorAlertMapPage"
 import AnalyticsDashboard from "./components/AnalyticsDashboard"
 import BloodTransactionHistory from "./components/BloodTransactionHistory"
+import BloodBankAlertPage from "./components/BloodBankAlertPage"
 import Navbar from "./components/Navbar"
 
 const NavbarWrapper = () => {
@@ -27,6 +29,7 @@ const App = () => {
         <Route path="/donor-alert-map" element={<DonorAlertMapPage />} />
         <Route path="/analytics" element={<AnalyticsDashboard />} />
         <Route path="/transaction-history" element={<BloodTransactionHistory />} />
+        <Route path="/bloodbank-alerts" element={<BloodBankAlertPage />} />
         {/* Add other routes as needed */}
       </Routes>
     </Router>

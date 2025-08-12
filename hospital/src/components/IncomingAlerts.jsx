@@ -43,17 +43,19 @@ const IncomingAlerts = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [confirmationMsg, setConfirmationMsg] = useState("");
 
+  // Fetch alerts on mount
   useEffect(() => {
     const fetchAlerts = async () => {
-      setLoading(true);
       try {
         const res = await fetch("http://127.0.0.1:5050/api/alerts");
         const data = await res.json();
-        if (data.status === "success") {
+        if (data.status === "success" && Array.isArray(data.alerts)) {
           setAlerts(data.alerts);
+        } else {
+          setAlerts([]);
         }
       } catch (err) {
-        // fallback: empty
+        setAlerts([]);
       } finally {
         setLoading(false);
       }
@@ -61,36 +63,34 @@ const IncomingAlerts = () => {
     fetchAlerts();
   }, []);
 
-  // Extract all unique types (components) from alerts
-  const allTypes = Array.from(new Set(alerts.map(a => a.component).filter(Boolean)));
-
-  // Summary stats
+  // Compute summary stats
   const stats = React.useMemo(() => {
-    let total = 0, critical = 0, urgent = 0, pending = 0, completed = 0;
-    alerts.forEach(alert => {
-      total++;
-      if ((alert.urgency || "").toLowerCase() === "critical" && (alert.status || "").toLowerCase() === "pending") critical++;
-      if ((alert.urgency || "").toLowerCase() === "urgent" && (alert.status || "").toLowerCase() === "pending") urgent++;
-      if ((alert.status || "").toLowerCase() === "pending") pending++;
-      if ((alert.status || "").toLowerCase() === "resolved" || (alert.status || "").toLowerCase() === "completed") completed++;
-    });
+    const total = alerts.length;
+    const critical = alerts.filter(a => (a.urgency || '').toLowerCase() === 'critical' && (a.status || '').toLowerCase() !== 'resolved' && (a.status || '').toLowerCase() !== 'completed').length;
+    const urgent = alerts.filter(a => (a.urgency || '').toLowerCase() === 'urgent' && (a.status || '').toLowerCase() !== 'resolved' && (a.status || '').toLowerCase() !== 'completed').length;
+    const pending = alerts.filter(a => (a.status || '').toLowerCase() === 'pending').length;
+    const completed = alerts.filter(a => (a.status || '').toLowerCase() === 'resolved' || (a.status || '').toLowerCase() === 'completed').length;
     return { total, critical, urgent, pending, completed };
   }, [alerts]);
 
-  // Filtered alerts
-  const filteredAlerts = alerts.filter((alert) => {
-    if (!alert.hospital_name || !alert.units_needed) return false;
-    const matchesSearch =
-      (alert.hospital_name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (alert.blood_group || "").toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesUrgency =
-      urgencyFilter === "all" || (alert.urgency || "").toLowerCase() === urgencyFilter;
-    const matchesType =
-      typeFilter === "all" || (alert.component || "").toLowerCase() === typeFilter;
-    const matchesStatus =
-      statusFilter === "all" || (alert.status || "").toLowerCase() === statusFilter;
-    return matchesSearch && matchesUrgency && matchesType && matchesStatus;
-  });
+  // Get all unique types/components
+  const allTypes = React.useMemo(() => {
+    const types = alerts.map(a => a.component).filter(Boolean);
+    return Array.from(new Set(types));
+  }, [alerts]);
+
+  // Filtered alerts based on search and filters
+  const filteredAlerts = React.useMemo(() => {
+    return alerts.filter(alert => {
+      const matchesSearch =
+        (alert.hospital_name && alert.hospital_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (alert.blood_group && alert.blood_group.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesUrgency = urgencyFilter === 'all' || (alert.urgency && alert.urgency.toLowerCase() === urgencyFilter);
+      const matchesType = typeFilter === 'all' || (alert.component && alert.component.toLowerCase() === typeFilter);
+      const matchesStatus = statusFilter === 'all' || (alert.status && alert.status.toLowerCase() === statusFilter);
+      return matchesSearch && matchesUrgency && matchesType && matchesStatus;
+    });
+  }, [alerts, searchTerm, urgencyFilter, typeFilter, statusFilter]);
 
   // Complete task: call backend to resolve alert and update inventory
   const handleCompleteTask = async (alert, idx) => {
